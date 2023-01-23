@@ -1,42 +1,25 @@
 const btn = document.getElementById("btn");
-const input = document.getElementById("guess");
-const submitBtn = document.getElementById("submit-btn");
-const respond = document.getElementById("respond");
-let correctNumber = Math.floor(Math.random() * 41) - 20;
+const num = document.getElementById("num");
 
 btn.addEventListener("click", function() {
-  input.removeAttribute("disabled");
-  submitBtn.removeAttribute("disabled");
+  const randomNumber = Math.floor(Math.random() * 41) - 20;
+  num.textContent = randomNumber;
 });
 
-submitBtn.addEventListener("click", function() {
-    let userGuess = parseInt(input.value);
-    let tries = 0;
-    const maxTries = 5;
-    while (tries < maxTries) {
-        if(userGuess === correctNumber){
-            respond.textContent = "Correct!";
-            break;
-        }
-        respond.textContent = checkGuess(userGuess, correctNumber);
-        userGuess = parseInt(input.value);
-        tries++;
-    }
-    if (tries === maxTries) {
-        respond.textContent = "You reached the maximum number of tries, the correct number was " + correctNumber;
-    }
-});
+//get the input element
+const input = document.getElementById("guess");
+//get the respond element
+const respond = document.getElementById("respond");
 
-function checkGuess(guess, correctNumber) {
-  const difference = Math.abs(guess - correctNumber);
-  if (difference <= 5) {
-    document.body.style.background = "red";
-    return "Hot";
-  } else if (difference <= 10) {
-    document.body.style.background = "yellow";
-    return "Warm";
+let correctNumber = Math.floor(Math.random() * 100);
+
+input.addEventListener("change", function() {
+  const guess = parseInt(input.value);
+  if (guess === correctNumber) {
+    respond.textContent = "Correct!";
+  } else if (Math.abs(guess - correctNumber) <= 10) {
+    respond.textContent = "Hot";
   } else {
-    document.body.style.background = "blue";
-    return "Cold";
+    respond.textContent = "Cold";
   }
-}
+});
